@@ -8,7 +8,7 @@ namespace tabuleiro{
 
         public Posicao(int linha, int coluna) {
             this.linha = linha;
-            this.coluna = this.coluna;
+            this.coluna = coluna;
         }
         public override string ToString() {
             return
