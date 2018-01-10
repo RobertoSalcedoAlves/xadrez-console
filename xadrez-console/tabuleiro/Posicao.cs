@@ -10,9 +10,8 @@ namespace tabuleiro{
             this.linha = linha;
             this.coluna = coluna;
         }
-        public override string ToString() {
-            return
-                "Posição "
+        public override string ToString(){
+            return "Posição "
                 + linha
                 + ", "
                 + coluna;
