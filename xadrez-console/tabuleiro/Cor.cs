@@ -10,6 +10,8 @@ namespace tabuleiro {
         Verde,
         Laranja,
         Cinza,
-        Amarela
+        Amarela,
+        Roxa,
+        Rosa
     }
 }
