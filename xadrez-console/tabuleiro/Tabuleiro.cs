@@ -30,7 +30,10 @@
             if(peca(pos) == null) {
                 return null;
             } else {
-                return peca(pos);
+                Peca aux = peca(pos);
+                aux.posicao = null;
+                pecas[pos.linha, pos.coluna] = null;
+                return aux;
             }
         }
         public bool posicaoValida(Posicao pos){
