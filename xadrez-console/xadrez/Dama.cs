@@ -21,45 +21,64 @@ namespace xadrez{
 
             //acima
             pos.definirValores(posicao.linha - 1, posicao.coluna);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+            while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
 
+                pos.linha--;
+            }
             //ne
             pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+             while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.linha--;
+                pos.coluna++;
+            }            
             //direita
             pos.definirValores(posicao.linha, posicao.coluna + 1);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+             while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.coluna++;
+            }            
             //se
             pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+             while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.linha++;
+                pos.coluna++;
+            }            
             //abaixo
             pos.definirValores(posicao.linha + 1, posicao.coluna);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+            while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.linha++;                
+            }            
             //so
             pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+             while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.linha++;
+                pos.coluna--;
+            }            
             //esquerda
             pos.definirValores(posicao.linha, posicao.coluna - 1);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+            while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.coluna--;
+            }            
             //no
             pos.definirValores(posicao.linha - 1, posicao.coluna - 1);
-            if (tab.posicaoValida(pos) && podeMover(pos)) {
+             while(tab.posicaoValida(pos) && podeMover(pos)){
                 mat[pos.linha, pos.coluna] = true;
-            }
+
+                pos.linha--;
+                pos.coluna--;
+            }            
             return mat;
         }
     }
