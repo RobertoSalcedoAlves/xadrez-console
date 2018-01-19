@@ -15,50 +15,42 @@ namespace xadrez{
             return p == null || p.cor != this.cor;
         }
 
-        //poupa linhas invertendo o sinal
-        private int inverteLado(){    
-            if(this.cor == Cor.Branca){
-                return 1;
-            }else{
-               return -1;
-            }
-        }
-
-        private int saltoRoque(string TipoRoque_grande_pequeno){
-            int salto = 0;
-            if(TipoRoque_grande_pequeno == "grande"){
-                salto = 2;
-            }else if(TipoRoque_grande_pequeno == "pequeno"){
-                salto = 1;
-            }else{
-                throw new TabuleiroException("Erro interno: erro na definição: TipoRoque_grande_pequeno");
-            }
-            return salto;
-        }
-
-         private bool temVizinho(Posicao posicao, string TipoRoque_p_g){
+        private bool podeRoquePequeno(){
             Posicao pos = new Posicao(0, 0);
-            int salto = 0;
-            if(TipoRoque_p_g == "p"){
-                salto = saltoRoque("pequeno");
-                for(var i = 0; i < salto; i++){
-                    pos.definirValores(posicao.linha, posicao.coluna + salto + i * inverteLado());
+            
+            return (temVizinho(posicao, "pequeno") && qteMovimentos == 0 && tab.peca(posicao.linha, posicao.coluna + 3).qteMovimentos == 0);              
+        }
+
+        private bool podeRoqueGrande(){
+            Posicao pos = new Posicao(0, 0);
+            
+            return (temVizinho(posicao, "grande") && qteMovimentos == 0 && tab.peca(posicao.linha, posicao.coluna - 4).qteMovimentos == 0);              
+        }
+
+         private bool temVizinho(Posicao posicao, string tipoRoque){
+            Posicao pos = new Posicao(0, 0);
+            bool resultado = true;
+            
+            if(tipoRoque == "pequeno"){
+                for(var i = 1; i < 3; i++){
+                    pos.definirValores(posicao.linha, posicao.coluna + i);
                     if(tab.existePeca(pos)){
-                        return true;
+                        resultado = false;
+                        break;
                     }
                 }
-            }else if (TipoRoque_p_g == "g"){
-                salto = saltoRoque("grande");
-                for(var i = 0; i < salto; i++){
-                    pos.definirValores(posicao.linha, posicao.coluna + salto + i * inverteLado());
+            }else if(tipoRoque == "grande"){
+                for(var i = 1; i < 4; i++){
+                    pos.definirValores(posicao.linha, posicao.coluna - i);
                     if(tab.existePeca(pos)){
-                        return true;
+                        resultado = false;
+                        break;
                     }
                 }
             }else{
-                throw new TabuleiroException("Erro interno: erro na definição: 'TipoRoque_p_g'");
+                throw new TabuleiroException("Erro interno: tipo de roque informado inválido!");
             }
-            return false;
+            return resultado;
         }
 
         public override bool[,] movimentosPossiveis() {
@@ -68,21 +60,16 @@ namespace xadrez{
            
 
             //RoquePequeno
-            if(!temVizinho(posicao, "p") && qteMovimentos == 0 && tab.peca){
-                pos.definirValores(posicao.linha, posicao.coluna + 2 * inverteLado());
-                if(tab.posicaoValida(pos) && podeMover(pos)) {
-                    mat[pos.linha, pos.coluna] = true;
-                }
+            if(podeRoquePequeno()){
+                pos.definirValores(posicao.linha, posicao.coluna + 2);
+                mat[pos.linha, pos.coluna] = true;
             }
 
             //RoqueGrande
-            if(!temVizinho(posicao, "p")){
-                pos.definirValores(posicao.linha, posicao.coluna + 2 * inverteLado());
-                if(tab.posicaoValida(pos) && podeMover(pos)) {
-                    mat[pos.linha, pos.coluna] = true;
-                }
+            if(podeRoqueGrande()){
+                pos.definirValores(posicao.linha, posicao.coluna - 3);
+                mat[pos.linha, pos.coluna] = true;
             }
-
 
             //acima
             pos.definirValores(posicao.linha -1, posicao.coluna);
