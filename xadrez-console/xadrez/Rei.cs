@@ -2,8 +2,10 @@ using tabuleiro;
 
 namespace xadrez{
     class Rei : Peca{
+        private PartidaDeXadrez partida;
 
-        public Rei(Tabuleiro tab, Cor cor) : base(tab, cor){            
+        public Rei(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor){
+            this.partida = partida;
         }
 
         public override string ToString(){
@@ -17,25 +19,33 @@ namespace xadrez{
 
         private bool podeRoquePequeno(){
             Posicao pos = new Posicao(0, 0);
-            
-            return (temVizinho(posicao, "pequeno") && qteMovimentos == 0 && tab.peca(posicao.linha, posicao.coluna + 3).qteMovimentos == 0);              
+
+            return
+                !temVizinho(posicao, "pequeno")
+                && qteMovimentos == 0
+                && tab.peca(posicao.linha, posicao.coluna + 3).qteMovimentos == 0
+                && !partida.xeque;
         }
 
         private bool podeRoqueGrande(){
             Posicao pos = new Posicao(0, 0);
-            
-            return (temVizinho(posicao, "grande") && qteMovimentos == 0 && tab.peca(posicao.linha, posicao.coluna - 4).qteMovimentos == 0);              
+
+            return
+                !temVizinho(posicao, "grande")
+                && qteMovimentos == 0
+                && tab.peca(posicao.linha, posicao.coluna - 4).qteMovimentos == 0
+                && !partida.xeque;
         }
 
          private bool temVizinho(Posicao posicao, string tipoRoque){
             Posicao pos = new Posicao(0, 0);
-            bool resultado = true;
+            bool resultado = false;
             
             if(tipoRoque == "pequeno"){
                 for(var i = 1; i < 3; i++){
                     pos.definirValores(posicao.linha, posicao.coluna + i);
                     if(tab.existePeca(pos)){
-                        resultado = false;
+                        resultado = true;
                         break;
                     }
                 }
@@ -43,7 +53,7 @@ namespace xadrez{
                 for(var i = 1; i < 4; i++){
                     pos.definirValores(posicao.linha, posicao.coluna - i);
                     if(tab.existePeca(pos)){
-                        resultado = false;
+                        resultado = true;
                         break;
                     }
                 }
@@ -67,7 +77,7 @@ namespace xadrez{
 
             //RoqueGrande
             if(podeRoqueGrande()){
-                pos.definirValores(posicao.linha, posicao.coluna - 3);
+                pos.definirValores(posicao.linha, posicao.coluna - 2);
                 mat[pos.linha, pos.coluna] = true;
             }
 
