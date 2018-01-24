@@ -14,6 +14,17 @@ namespace xadrez {
             return p == null || p.cor != this.cor;
         }
 
+        public void executarTorreRoque(Posicao origem, Posicao destino){
+            
+            tab.colocarPeca(tab.retirarPeca(origem), destino);
+            incrementarQteMovimentos();
+        }
+
+        public void desfazerTorreRoque(Posicao origem, Posicao destino){
+            tab.colocarPeca(tab.retirarPeca(origem), destino);
+            decrementarQteMovimentos();
+        }
+
         public override bool[,] movimentosPossiveis() {
             bool[,] mat = new bool[tab.linhas, tab.colunas];
 
