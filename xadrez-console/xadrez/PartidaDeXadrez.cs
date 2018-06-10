@@ -12,6 +12,7 @@ namespace xadrez {
         private HashSet<Peca> capturadas;
         public bool xeque { get; private set; }
         public Peca vulneravelEnPassant { get; private set; }
+        //public bool promocao { get; private set; }
 
     public PartidaDeXadrez() {
             tab = new Tabuleiro(8, 8);
@@ -21,6 +22,7 @@ namespace xadrez {
             xeque = false;
             pecas = new HashSet<Peca>();
             vulneravelEnPassant = null;
+            //promocao = false;
             capturadas = new HashSet<Peca>();
             colocarPecas();
         }
@@ -129,7 +131,21 @@ namespace xadrez {
                 throw new TabuleiroException("Você não pode se colocar em cheque!");
             }
 
-            if(estaEmCheck(adversaria(jogadorAtual))){
+            Peca p = tab.peca(destino);
+            
+            if(p is Peao)
+            {
+                if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Preta && destino.linha == 7)){
+                    p = tab.retirarPeca(destino);
+                    pecas.Remove(p);
+                    Peca pPromovido = Promocao(p);
+                    tab.colocarPeca(pPromovido, destino);
+                    pecas.Add(pPromovido);
+                }
+            }
+
+
+            if (estaEmCheck(adversaria(jogadorAtual))){
                 xeque = true;
             }else{
                 xeque = false;
@@ -142,8 +158,6 @@ namespace xadrez {
                 mudaJogador();
             }
 
-            Peca p = tab.peca(destino);
-
             if(p is Peao && destino.linha == origem.linha + 2 || destino.linha == origem.linha - 2)
             {
                 vulneravelEnPassant = p;
@@ -151,6 +165,25 @@ namespace xadrez {
             else
             {
                 vulneravelEnPassant = null;
+            }
+        }
+
+        public Peca Promocao(Peca senhorPeao){
+            
+            int opcao = 1;
+
+            switch (opcao)
+            {
+                case 1:
+                    return new Dama(tab, senhorPeao.cor);
+                case 2:
+                    return new Torre(tab, senhorPeao.cor);
+                case 3:
+                    return new Bispo(tab, senhorPeao.cor);
+                case 4:
+                    return new Cavalo(tab, senhorPeao.cor);
+                default:
+                    return null;
             }
         }
 

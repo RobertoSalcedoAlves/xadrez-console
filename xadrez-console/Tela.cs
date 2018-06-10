@@ -20,7 +20,12 @@ namespace xadrez_console {
                     Console.WriteLine();
                     Console.WriteLine("### XEQUE! ###");
                 }
-            }else{
+                //if (partida.promocao)
+                //{
+                //    //PROMOÇÃO
+                //}
+            }
+            else{
                 Console.WriteLine("####### XEQUEMATE! #######");
                 Console.WriteLine("Vencedor: " + partida.jogadorAtual);                
             }            
