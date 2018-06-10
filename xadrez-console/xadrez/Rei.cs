@@ -20,21 +20,29 @@ namespace xadrez{
         private bool podeRoquePequeno(){
             Posicao pos = new Posicao(0, 0);
 
-            return
-                !temVizinho(posicao, "pequeno")
-                && qteMovimentos == 0
-                && tab.peca(posicao.linha, posicao.coluna + 3).qteMovimentos == 0
-                && !partida.xeque;
+            if(this.qteMovimentos == 0)
+            {
+                return
+                    !temVizinho(posicao, "pequeno")
+                    && qteMovimentos == 0
+                    && tab.peca(posicao.linha, posicao.coluna + 3).qteMovimentos == 0
+                    && !partida.xeque;
+            }
+            return false;            
         }
 
         private bool podeRoqueGrande(){
             Posicao pos = new Posicao(0, 0);
 
-            return
-                !temVizinho(posicao, "grande")
-                && qteMovimentos == 0
-                && tab.peca(posicao.linha, posicao.coluna - 4).qteMovimentos == 0
-                && !partida.xeque;
+            if (this.qteMovimentos == 0)
+            {
+                return
+                    !temVizinho(posicao, "grande")
+                    && qteMovimentos == 0
+                    && tab.peca(posicao.linha, posicao.coluna - 4).qteMovimentos == 0
+                    && !partida.xeque;
+            }
+            return false;
         }
 
          private bool temVizinho(Posicao posicao, string tipoRoque){

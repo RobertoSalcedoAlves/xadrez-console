@@ -14,7 +14,7 @@ namespace xadrez {
             return p == null || p.cor != this.cor;
         }
 
-        public void executarTorreRoque(Posicao origem, Posicao destino){
+        public void executarRoqueTorre(Posicao origem, Posicao destino){
             
             tab.colocarPeca(tab.retirarPeca(origem), destino);
             incrementarQteMovimentos();
