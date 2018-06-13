@@ -12,6 +12,7 @@ namespace xadrez {
         private HashSet<Peca> capturadas;
         public bool xeque { get; private set; }
         public Peca vulneravelEnPassant { get; private set; }
+        public string tipoPosicao { get; private set; }
         //public bool promocao { get; private set; }
 
     public PartidaDeXadrez() {
@@ -22,6 +23,7 @@ namespace xadrez {
             xeque = false;
             pecas = new HashSet<Peca>();
             vulneravelEnPassant = null;
+            tipoPosicao = "origem";
             //promocao = false;
             capturadas = new HashSet<Peca>();
             colocarPecas();
@@ -187,9 +189,10 @@ namespace xadrez {
             }
         }
 
-        public void validarPosicaoDeOrigem(Posicao pos){
-            if(tab.peca(pos) == null){
-                throw new TabuleiroException("Não existe peça na posição de origem escolhida!");                
+        public bool validarPosicaoDeOrigem(Posicao pos){
+            
+            if (tab.peca(pos) == null){
+                throw new TabuleiroException("Não existe peça na posição de origem escolhida!");
             }
             if(jogadorAtual != tab.peca(pos).cor){
                 throw new TabuleiroException("A peça de origem escolhida não é sua!");
@@ -197,12 +200,14 @@ namespace xadrez {
             if(!tab.peca(pos).existeMovimentosPossiveis()){
                 throw new TabuleiroException("Não há movimentos possíveis para a peça de origem escolhida!");
             }
+            return true;
         }
 
-        public void validarPosicaoDestino(Posicao origem, Posicao destino){
+        public bool validarPosicaoDestino(Posicao origem, Posicao destino){
             if(!tab.peca(origem).movimentoPossivel(destino)){
                 throw new TabuleiroException("Posição de destino inválida!");
             }
+            return true;
         }
 
         private void mudaJogador(){
@@ -210,6 +215,18 @@ namespace xadrez {
                 jogadorAtual = Cor.Preta;
             }else{
                 jogadorAtual = Cor.Branca;
+            }
+        }
+
+        public void mudaTipoPosicao()
+        {
+            if (tipoPosicao == "origem")
+            {
+                tipoPosicao = "destino";
+            }
+            else
+            {
+                tipoPosicao = "origem";
             }
         }
 
