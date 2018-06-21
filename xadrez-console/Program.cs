@@ -3,15 +3,28 @@ using tabuleiro;
 using xadrez;
 
 namespace xadrez_console{
+    
     class Program{
+        
         static void Main(string[] args){
-            try {
-                PartidaDeXadrez partida = new PartidaDeXadrez();
+            
+            #region Boas Vindas
 
+            Console.WriteLine($"Olá {System.Environment.GetEnvironmentVariable("Username", EnvironmentVariableTarget.Process)}!");
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+            Console.WriteLine("Bom jogo");
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
+
+            #endregion
+
+            try
+            {                
+                PartidaDeXadrez partida = new PartidaDeXadrez();
+                
                 while (!partida.terminada) {
                     try{
                         Console.Clear();
-                        Tela.imprimirPartida(partida);                        
+                        Tela.imprimirPartida(partida);              
                         
                         Posicao origem = Tela.lerPosicaoXadrez(partida).ToPosicao();
                         partida.validarPosicaoDeOrigem(origem);
@@ -35,11 +48,13 @@ namespace xadrez_console{
                 }
                 Console.Clear();
                 Tela.imprimirPartida(partida);
+                Console.ReadKey(true);
                 
-            }catch (TabuleiroException e) {
-                        Console.WriteLine(e.Message);
-                    }
-                    Console.ReadKey();
+            }
+            catch (TabuleiroException e) {
+                Console.WriteLine(e.Message);
+            }
+            Console.ReadKey();
         }               
     }
 }

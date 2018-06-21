@@ -146,133 +146,97 @@ namespace xadrez_console {
         }
 
         public static PosicaoXadrez lerPosicaoXadrez(PartidaDeXadrez partida) {
-            string s = "";
-            char coluna = ' ';
-            int linha = 100;
 
-            while(true)
-            {
-                s = Console.ReadLine();
-                s = s.Trim();
-                s = s.TrimStart();
-                s = s.TrimEnd();
-                if (s.Length == 2)
+            while(true) {
+
+                try
                 {
-                    char col = Convert.ToChar(Convert.ToString(s[0]).ToLower());
-                    if (col == 'a' || col == 'b' || col == 'c' || col == 'd' || col == 'e' || col == 'f' || col == 'g' || col == 'h')
+                    string entrada = Console.ReadLine();
+                    entrada = entrada.Trim();
+                    entrada = entrada.TrimStart();
+                    entrada = entrada.TrimEnd();
+                    char coluna = ' ';
+                    int linha = 100;
+
+                    ValidarFormato(entrada);
+                   
+                    coluna = entrada[0];
+                    linha = int.Parse(entrada[1] + "");
+                    if (partida.validarPosicaoDeOrigem(new PosicaoXadrez(coluna, linha).ToPosicao()))
                     {
-                        try
-                        {
-                            int lin = int.Parse(s[1].ToString());
-                            if (lin > 0 && lin < 9)
-                            {
-                                coluna = s[0];
-                                linha = int.Parse(s[1] + "");
-                                if (partida.validarPosicaoDeOrigem(new PosicaoXadrez(coluna, linha).ToPosicao()))
-                                {
-                                    return new PosicaoXadrez(coluna, linha);
-                                }
-                                else
-                                {
-                                    TipoPosicao = "Origem";
-                                }
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                TipoPosicao = "Origem";
-                                imprimirPartida(partida);
-                            }
-                        }
-                        catch (Exception erro)
-                        {
-                            Console.Write(erro.Message);
-                            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
-                            Console.Clear();
-                            TipoPosicao = "Origem";
-                            imprimirPartida(partida);
-                        }
+                        return new PosicaoXadrez(coluna, linha);
                     }
                     else
                     {
-                        Console.Clear();
-                        TipoPosicao = "Origem";
-                        imprimirPartida(partida);
+                    Console.Clear();
+                    TipoPosicao = "Origem";
+                    imprimirPartida(partida);
                     }
                 }
-                else
+                catch (Exception erro)
                 {
+                    Console.Write(erro.Message);
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
                     Console.Clear();
                     TipoPosicao = "Origem";
                     imprimirPartida(partida);
                 }
             }
-        }
+            
+        }       
 
-        public static PosicaoXadrez lerPosicaoXadrez(PartidaDeXadrez partida, bool[,]posicoesPossiveis, Posicao origem)
-        {
-            string s = "";
-            char coluna = ' ';
-            int linha = 100;
-
+        public static PosicaoXadrez lerPosicaoXadrez(PartidaDeXadrez partida, bool[,]posicoesPossiveis, Posicao origem){
             while (true)
             {
-                s = Console.ReadLine();
-                s = s.Trim();
-                s = s.TrimStart();
-                s = s.TrimEnd();
-                if (s.Length == 2)
+                try
                 {
-                    char col = Convert.ToChar(Convert.ToString(s[0]).ToLower());
-                    if (col == 'a' || col == 'b' || col == 'c' || col == 'd' || col == 'e' || col == 'f' || col == 'g' || col == 'h')
+                    string entrada = Console.ReadLine();
+                    entrada = entrada.Trim();
+                    entrada = entrada.TrimStart();
+                    entrada = entrada.TrimEnd();
+                    char coluna = ' ';
+                    int linha = 100;
+
+                    ValidarFormato(entrada);
+
+                    coluna = entrada[0];
+                    linha = int.Parse(entrada[1] + "");
+                    if (partida.validarPosicaoDestino(origem, new PosicaoXadrez(coluna, linha).ToPosicao()))
                     {
-                        try
-                        {
-                            int lin = int.Parse(s[1].ToString());
-                            if (lin > 0 && lin < 9)
-                            {
-                                coluna = s[0];
-                                linha = int.Parse(s[1] + "");
-                                if (partida.validarPosicaoDestino(origem, new PosicaoXadrez(coluna, linha).ToPosicao()))
-                                {
-                                    return new PosicaoXadrez(coluna, linha);
-                                }
-                                else
-                                {
-                                    TipoPosicao = "Destino";
-                                }
-                            }
-                            else
-                            {
-                                Console.Clear();
-                                TipoPosicao = "Destino";
-                                imprimirTabuleiro(partida.tab, posicoesPossiveis, partida);
-                            }
-                        }
-                        catch (Exception erro)
-                        {
-                            Console.Write(erro.Message);
-                            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
-                            Console.Clear();
-                            TipoPosicao = "Destino";
-                            imprimirTabuleiro(partida.tab, posicoesPossiveis, partida);
-                        }
-                       
-                    }
-                    else
-                    {
-                        Console.Clear();
-                        TipoPosicao = "Destino";
-                        imprimirTabuleiro(partida.tab, posicoesPossiveis, partida);
+                        return new PosicaoXadrez(coluna, linha);
                     }
                 }
-                else
+                catch (Exception erro)
                 {
+                    Console.Write(erro.Message);
+                    System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
                     Console.Clear();
                     TipoPosicao = "Destino";
                     imprimirTabuleiro(partida.tab, posicoesPossiveis, partida);
                 }
             }
+        }
+
+        public static void ValidarFormato(string entrada)
+        {
+            string posicao;
+            posicao = entrada.Trim();
+            posicao = posicao.TrimStart();
+            posicao = posicao.TrimEnd();
+
+            if (posicao.Length != 2)
+                throw new TabuleiroException("A posição deve ser composta por linha e coluna. ex: 'a1'");
+
+            char col = Convert.ToChar(Convert.ToString(posicao[0]).ToLower());
+            bool Erro;
+
+            Erro = !(col == 'a' || col == 'b' || col == 'c' || col == 'd' || col == 'e' || col == 'f' || col == 'g' || col == 'h');
+            if (Erro)
+                throw new TabuleiroException("O 1º caractere deve ser a letra da linha");
+
+            Erro = !(char.IsDigit(posicao[1]));
+            if (Erro)
+                throw new TabuleiroException("O 2º caractere deve ser um o número da coluna");
         }
 
         public static void ImprimirPeca(Peca peca) {
@@ -290,6 +254,6 @@ namespace xadrez_console {
                 }                
                     Console.Write(" ");
             }
-        }
+        }        
     }
 }
