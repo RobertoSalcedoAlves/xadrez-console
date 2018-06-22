@@ -12,7 +12,8 @@ namespace xadrez_console{
 
             Console.WriteLine($"Olá {System.Environment.GetEnvironmentVariable("Username", EnvironmentVariableTarget.Process)}!");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
-            Console.WriteLine("Bom jogo");
+            Console.Clear();
+            Console.WriteLine("Bom jogo!");
             System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
 
             #endregion
